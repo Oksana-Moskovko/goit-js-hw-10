@@ -1,5 +1,8 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
+
 
 const selector = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('button[data-start]');
@@ -18,9 +21,15 @@ function validateDate(date) {
   if (date > currentTime) {
     userSelectedDate = date;
     console.log("Date selected:", userSelectedDate);
+    startBtn.classList.remove('disable');
+    startBtn.classList.add('button-active');
     startBtn.disabled = false;
   } else {
-    alert("Please choose a date in the future");
+    iziToast.error({
+    title: 'Error',
+    message: 'Please choose a date in the future',
+    });
+    startBtn.classList.add('disable');
     startBtn.disabled = true;
   }
 }
@@ -40,18 +49,21 @@ const options = {
 
 flatpickr(selector, options);
 
-
 startBtn.addEventListener('click', () => {
+  startBtn.disabled = true;
+  startBtn.classList.remove('button-active');
+  startBtn.classList.add('disable');
+
   intervalId = setInterval(() => {
     const diffMS = userSelectedDate - new Date();
-      
+
     if (diffMS <= 0) {
       clearInterval(intervalId);
       addLeadingZero(0);
       return;
     }
 
-    addLeadingZero(diffMS);
+     addLeadingZero(diffMS);
   }, 1000);
 });
 

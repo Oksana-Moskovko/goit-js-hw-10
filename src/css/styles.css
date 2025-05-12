@@ -16,7 +16,7 @@
 @import url('./badges.css');
 @import url('./back-link.css');
 
-button {
+.button-start {
   border-radius: 8px;
   padding: 8px 16px;
   width: 75px;
@@ -28,8 +28,23 @@ button {
   font-size: 16px;
   line-height: 1.5;
   letter-spacing: 0.04em;
+}
+
+.disable {
+  background: #cfcfcf;
   color: #989898;
 }
+
+.button-active {
+  background: #4e75ff;
+  color: #fff;
+}
+
+.button-active:hover,
+.button-active:focus {
+  background: #6c8cff;
+}
+
 
 #datetime-picker {
   width: 272px;
@@ -70,4 +85,10 @@ button {
   font-size: 16px;
   line-height: 1.5;
   color: #2e2f42;
+}
+
+.iziToast-wrapper-bottomRight {
+  top: 0px;    
+  right: 0px;
+  text-align: right;
 }
