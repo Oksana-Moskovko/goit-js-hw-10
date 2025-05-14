@@ -20,16 +20,14 @@ function validateDate(date) {
   const currentTime = new Date();
   if (date > currentTime) {
     userSelectedDate = date;
-    console.log("Date selected:", userSelectedDate);
+    startBtn.disabled = false;
     startBtn.classList.remove('disable');
     startBtn.classList.add('button-active');
-    startBtn.disabled = false;
   } else {
     iziToast.error({
-    title: 'Error',
-    message: 'Please choose a date in the future',
+      title: 'Error',
+      message: 'Please choose a date in the future',
     });
-    startBtn.classList.add('disable');
     startBtn.disabled = true;
   }
 }
@@ -40,17 +38,17 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-      validateDate(selectedDates[0]);
-      if (selectedDates[0] > options.defaultDate) {
-          userSelectedDate = selectedDates[0]
-      }
+    validateDate(selectedDates[0]);
   },
 };
 
 flatpickr(selector, options);
 
 startBtn.addEventListener('click', () => {
+// Блокуємо інпут і кнопку
+  selector.disabled = true;
   startBtn.disabled = true;
+
   startBtn.classList.remove('button-active');
   startBtn.classList.add('disable');
 
@@ -59,17 +57,15 @@ startBtn.addEventListener('click', () => {
 
     if (diffMS <= 0) {
       clearInterval(intervalId);
-      addLeadingZero(0);
+      updateTimerDisplay(0);
+      selector.disabled = false;
       return;
     }
-
-     addLeadingZero(diffMS);
+     updateTimerDisplay(diffMS);
   }, 1000);
 });
 
-
-
-function addLeadingZero(ms) {
+function updateTimerDisplay(ms) {
     const { days, hours, minutes, seconds } = convertMs(ms);
 
     daysSpan.textContent = days.toString().padStart(2, '0');
@@ -77,7 +73,6 @@ function addLeadingZero(ms) {
     minutesSpan.textContent = minutes.toString().padStart(2, '0');
     secondsSpan.textContent = seconds.toString().padStart(2, '0');
 }
-
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
